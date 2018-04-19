@@ -1,7 +1,10 @@
+##
+##
+##Getting Started with SIXFAB NB-IoT SHIELD
+##
+##
+##
 import time
-#from threading import Timer
-import urllib2
-#import datetime
 import serial
 
 ser = serial.Serial(
@@ -13,9 +16,6 @@ ser = serial.Serial(
 )
 
 
-def wait():
-	sixfab.toggleLed()
-	time.sleep(0.3)
 	
 while 1:
 
@@ -28,7 +28,7 @@ while 1:
 		print 'RESPONSE:%s' % response	
 		if response.startswith('OK'):
 			break
-	print 'DONE 0'
+#	print 'DONE 0'
 	ser.reset_input_buffer()
 	
 	while 1:
@@ -39,7 +39,7 @@ while 1:
 		print 'RESPONSE:%s' % response
 		if response.startswith('OK'):
 			break
-	print 'DONE 1'
+#	print 'DONE 1'
 	ser.reset_input_buffer()
 
 	while 1:
@@ -50,7 +50,7 @@ while 1:
 		print 'RESPONSE:%s' % response
 		if response.startswith('OK'):
 			break
-	print 'DONE 2'
+#	print 'DONE 2'
 	ser.reset_input_buffer()
 
 	while 1:
@@ -62,7 +62,7 @@ while 1:
 		if response.startswith('OK'):
 			break
 
-	print 'DONE 3'
+#	print 'DONE 3'
 	time.sleep(3)
 	ser.reset_input_buffer()
 	while 1:
@@ -77,7 +77,7 @@ while 1:
 			if response.startswith('+CGATT:1'):
 				break
 		break
-	print 'DONE 4'
+#	print 'DONE 4'
 	ser.write('AT+NSOCL=0\r')
 	time.sleep(1)
 	ser.reset_input_buffer()
@@ -97,19 +97,19 @@ while 1:
 			
 		break
 
-	print 'DONE 5'
+#	print 'DONE 5'
 	
 	break
 
 
 while 1:
- 
+ 	#String to be sent
 	data = 'SIXFAB NB-IoT\n'
 	print data
 		
         print 'DATA SENDING'
-        
-        data ='AT+NSOST=0,78.182.61.201,5000,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
+        ## IMPORTANT: Router's IP and UDP port information to be edit here
+        data ='AT+NSOST=0,78.182.58.240,5500,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
         ser.reset_input_buffer()
 	ser.write(data)
         
