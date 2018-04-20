@@ -11,10 +11,10 @@ import SDL_Pi_HDC1000
 
 #Tempertaure and Humidity
 
-hdc1000 = SDL_Pi_HDC1000.SDL_Pi_HDC1000()
+hdc = SDL_Pi_HDC1000.SDL_Pi_HDC1000()
 
-temperature = hdc1000.readTemperature();
-humidity = hdc1000.readHumidity();
+temperature = hdc.readTemperature()
+humidity = hdc.readHumidity()
 
 #Prints as integer
 print "Temperature: %d" %temperature
@@ -117,12 +117,14 @@ while 1:
 
 while 1:
  	#Data formatting
+	temperature = hdc.readTemperature()
+	humidity = hdc.readHumidity()
 	data = '{{Temperature:{0}, Humidity:{1}}}\n'.format(temperature, humidity)
 	print data
 		
         print 'DATA SENDING'
         ## IMPORTANT: Router's IP and UDP port information to be edit here
-        data ='AT+NSOST=0,78.182.58.240,5500,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
+        data ='AT+NSOST=0,85.109.205.164,5500,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
         ser.reset_input_buffer()
 	ser.write(data)
         
