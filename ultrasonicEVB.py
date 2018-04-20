@@ -6,6 +6,7 @@
 ##RX -> GPIO15(RX)
 ##TX -> GPIO14(TX)
 
+
 import time
 import serial
 import RPi.GPIO as gpio
@@ -47,12 +48,9 @@ def cal_distance():
 	if distance > 20 and distance < 600:
 		return distance
 	else:
-		return 0
-''' 
-while 1:
-	dis = cal_distance()
-	print "Distance: %d cm" %dis
-'''
+		return 'OFF RANGE'
+ 
+
 #########------------------------------------
 
 ser = serial.Serial(
@@ -168,7 +166,7 @@ while 1:
                         break
 
                 
-                data = '{{Distance: {0}cm}}\n'.format(cal_distance())
+                data = '{{Distance: {0}}}\n'.format(cal_distance())
 		print data
                 print 'SENDING DATA'
                 data ='AT+NSOST=0,85.109.205.164,5500,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
