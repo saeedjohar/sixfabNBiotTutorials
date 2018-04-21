@@ -1,11 +1,16 @@
 ##This code tests SIXFAB NB-IoT EVB Shield
 ##pin Configuration 
-##EVB   RPI
-##5V -> 5V
-##GND-> 5V
-##RX -> GPIO15(RX)
-##TX -> GPIO14(TX)
-
+##EVB   	RPI
+##5V 	-> 	5V
+##GND	-> 	5V
+##RX 	-> 	GPIO15(RX)
+##TX 	-> 	GPIO14(TX)
+##
+##JSN-SR04	RPi
+##5V	->	5V
+##GND	->	GND
+##TRIG	->	GPIO19
+##ECHO	->	GPIO26
 
 import time
 import serial
@@ -76,14 +81,9 @@ while 1:
                 if response.startswith('OK'):
                         break
 
-        print 'DONE 1'
-
-
+#        print 'DONE 1'
 
         ser.reset_input_buffer()
-
-
-
         while 1:
                 ser.write("AT+CGATT?\r")
                 time.sleep(1)
@@ -104,7 +104,7 @@ while 1:
 
                 break
 
-        print 'DONE 2'
+#        print 'DONE 2'
 
         ser.write('AT+NSOCL=0\r')
         time.sleep(1)
@@ -130,56 +130,38 @@ while 1:
 
                 break
 
-        print 'DONE 3'
-
-
+#        print 'DONE 3'
         break
-
-
 while 1:
-
-
         while 1:
-
                 print 'NUESTATS CHECKING'
-
-
                 ser.reset_input_buffer()
-
                 signal = 0
                 while 1:
                         ser.write("AT+NUESTATS\r")
                         time.sleep(3)
-
                         while 1:
                                 response = ser.readline()
                                 print 'RESPONSE:%s' % response
-
                                 if response.startswith('Signal power:'):
                                         signal = int(response.split(':',2)[1])/10
-
                                 if response.startswith('OK'):
                                         break
 
                                 time.sleep(0.1)
-
                         break
-
-                
-                data = '{{Distance: {0}}}\n'.format(cal_distance())
-		print data
-                print 'SENDING DATA'
-                data ='AT+NSOST=0,85.109.205.164,5500,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
-                ser.reset_input_buffer()
-                ser.write(data)
-                response = ser.readline()
-                response = ser.readline()
-                print 'RESPONSE:%s' % response
-
-                time.sleep(5)
-
-
-                print 'FULL OK'
+                while 1:
+                	data = '{{Distance: {0}}}\n'.format(cal_distance())
+			print data
+                	print 'SENDING DATA'
+                	data ='AT+NSOST=0,85.109.205.164,5500,{0},{1}\r'.format(str(len(data)),data.encode("hex"))
+                	ser.reset_input_buffer()
+                	ser.write(data)
+                	response = ser.readline()
+                	response = ser.readline()
+                	print 'RESPONSE:%s' % response
+                	time.sleep(5)
+                	print 'FULL OK'
 
 
 
